@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Unlit Opaque
+  m_Name: Unlit Opaque1
   m_Shader: {fileID: 4800000, guid: 5af6e30a95a1c2d4e87c7a5ac78bd62c, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -73,5 +73,5 @@ Material:
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 0.14211744, g: 0.4339623, b: 0.12896049, a: 1}
+    - _Color: {r: 1, g: 0.9048885, b: 0, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}

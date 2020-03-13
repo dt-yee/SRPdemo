@@ -65,9 +65,19 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\MyPipeline.cs" />
     <Compile Include="Assets\Scripts\MyPipelineAsset.cs" />
-    <None Include="Assets\Materials\Unlit.shader" />
+    <None Include="Assets\Scripts\Shaders\Unlit.shader" />
+    <None Include="Assets\Scripts\ShaderLab\Unlit.hlsl" />
     <Reference Include="Unity.PackageManagerUI.Editor">
       <HintPath>D:/program/SRPdemo/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.RenderPipelines.Core.Editor">
+      <HintPath>D:/program/SRPdemo/Library/ScriptAssemblies/Unity.RenderPipelines.Core.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.RenderPipelines.Core.Runtime">
+      <HintPath>D:/program/SRPdemo/Library/ScriptAssemblies/Unity.RenderPipelines.Core.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.RenderPipelines.Core.ShaderLibrary">
+      <HintPath>D:/program/SRPdemo/Library/ScriptAssemblies/Unity.RenderPipelines.Core.ShaderLibrary.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>D:/Program Files/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
