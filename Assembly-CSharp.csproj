@@ -63,18 +63,21 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\MyPipeline.cs" />
-    <Compile Include="Assets\Scripts\MyPipelineAsset.cs" />
+    <Compile Include="Assets\Scripts\InstancedColor.cs" />
+    <Compile Include="Assets\Scripts\MyPipeline\MyPipeline.cs" />
+    <Compile Include="Assets\Scripts\MyPipeline\MyPipelineAsset.cs" />
     <None Include="Assets\Scripts\Shaders\Unlit.shader" />
+    <None Include="Assets\Scripts\Shaders\Lit.shader" />
+    <None Include="Assets\Scripts\ShaderLab\Lit.hlsl" />
     <None Include="Assets\Scripts\ShaderLab\Unlit.hlsl" />
-    <Reference Include="Unity.PackageManagerUI.Editor">
-      <HintPath>D:/program/SRPdemo/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
-    </Reference>
     <Reference Include="Unity.RenderPipelines.Core.Editor">
       <HintPath>D:/program/SRPdemo/Library/ScriptAssemblies/Unity.RenderPipelines.Core.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.RenderPipelines.Core.Runtime">
       <HintPath>D:/program/SRPdemo/Library/ScriptAssemblies/Unity.RenderPipelines.Core.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.PackageManagerUI.Editor">
+      <HintPath>D:/program/SRPdemo/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.RenderPipelines.Core.ShaderLibrary">
       <HintPath>D:/program/SRPdemo/Library/ScriptAssemblies/Unity.RenderPipelines.Core.ShaderLibrary.dll</HintPath>

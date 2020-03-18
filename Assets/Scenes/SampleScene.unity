@@ -124,6 +124,7 @@ GameObject:
   - component: {fileID: 83449477}
   - component: {fileID: 83449476}
   - component: {fileID: 83449475}
+  - component: {fileID: 83449479}
   m_Layer: 0
   m_Name: Sphere (7)
   m_TagString: Untagged
@@ -188,7 +189,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 83449474}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!4 &83449478
 Transform:
   m_ObjectHideFlags: 0
@@ -203,6 +204,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -58.678}
+--- !u!114 &83449479
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 83449474}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a6cb7ed1fa8e7148894f3db9412b2fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  color: {r: 0.9245283, g: 0.047970813, b: 0.047970813, a: 1}
 --- !u!1 &170076733
 GameObject:
   m_ObjectHideFlags: 0
@@ -529,7 +543,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 590336264}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!4 &590336268
 Transform:
   m_ObjectHideFlags: 0
@@ -804,6 +818,7 @@ GameObject:
   - component: {fileID: 1068593917}
   - component: {fileID: 1068593916}
   - component: {fileID: 1068593915}
+  - component: {fileID: 1068593919}
   m_Layer: 0
   m_Name: Sphere (9)
   m_TagString: Untagged
@@ -883,6 +898,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 61.905003, y: 0, z: 0}
+--- !u!114 &1068593919
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1068593914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a6cb7ed1fa8e7148894f3db9412b2fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  color: {r: 0.5590475, g: 0.764151, b: 0.09011213, a: 1}
 --- !u!1 &1226648039
 GameObject:
   m_ObjectHideFlags: 0
@@ -1065,6 +1093,7 @@ GameObject:
   - component: {fileID: 1968735833}
   - component: {fileID: 1968735832}
   - component: {fileID: 1968735831}
+  - component: {fileID: 1968735835}
   m_Layer: 0
   m_Name: Sphere (5)
   m_TagString: Untagged
@@ -1129,7 +1158,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1968735830}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!4 &1968735834
 Transform:
   m_ObjectHideFlags: 0
@@ -1144,6 +1173,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: -30.491001, z: 0}
+--- !u!114 &1968735835
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1968735830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a6cb7ed1fa8e7148894f3db9412b2fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  color: {r: 0, g: 0.5790224, b: 0.6603774, a: 1}
 --- !u!1 &2031271093
 GameObject:
   m_ObjectHideFlags: 0
@@ -1156,6 +1198,7 @@ GameObject:
   - component: {fileID: 2031271096}
   - component: {fileID: 2031271095}
   - component: {fileID: 2031271094}
+  - component: {fileID: 2031271098}
   m_Layer: 0
   m_Name: Sphere (4)
   m_TagString: Untagged
@@ -1235,6 +1278,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: -44.439003, y: 0, z: 0}
+--- !u!114 &2031271098
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2031271093}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a6cb7ed1fa8e7148894f3db9412b2fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  color: {r: 0.4189036, g: 0.057849795, b: 0.9433962, a: 1}
 --- !u!1 &2053523894
 GameObject:
   m_ObjectHideFlags: 0

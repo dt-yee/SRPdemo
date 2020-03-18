@@ -1,4 +1,4 @@
-﻿Shader "My Pipeline/Unlit"{
+﻿Shader "My Pipeline/Lit"{
 	Properties{
 		_Color ("Color", Color) = (1,1,1,1)
 	}
@@ -12,10 +12,10 @@
 			#pragma multi_compile_instancing
 			#pragma instancing_options assumeuniformscaling
 
-			#pragma vertex UnlitPassVertex
-			#pragma fragment UnlitPassFragment
+			#pragma vertex LitPassVertex
+			#pragma fragment LitPassFragment
 
-			#include "../ShaderLab/Unlit.hlsl"
+			#include "../ShaderLab/Lit.hlsl"
 			ENDHLSL
 		
 		}

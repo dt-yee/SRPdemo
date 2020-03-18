@@ -9,7 +9,14 @@ public class MyPipeline : RenderPipeline
     Material errorMaterial;
 
     DrawRendererFlags drawflags;
-   
+
+    const int maxVisibleLights = 4;
+
+    static int visibleLightColorsId = Shader.PropertyToID("_VisibleLightColors");
+    static int visibleLightDirectionsId = Shader.PropertyToID("_VisibleLightDirections");
+
+    Vector4[] visibleLightColors = new Vector4[maxVisibleLights];
+    Vector4[] visibleLightDirections = new Vector4[maxVisibleLights]; 
 
     public MyPipeline (bool dynamicBatching, bool instancing)
     {
@@ -63,6 +70,10 @@ public class MyPipeline : RenderPipeline
             camera.backgroundColor
         );
         buffer.BeginSample("Render Camera");
+
+        buffer.SetGlobalVectorArray(visibleLightColorsId, visibleLightColors);
+        buffer.SetGlobalVectorArray(visibleLightDirectionsId, visibleLightDirections);
+
         //buffer.ClearRenderTarget(true, false, Color.clear);
         context.ExecuteCommandBuffer(buffer);
         buffer.Clear();
