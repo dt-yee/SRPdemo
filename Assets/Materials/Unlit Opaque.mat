@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Unlit Opaque
-  m_Shader: {fileID: 4800000, guid: 5af6e30a95a1c2d4e87c7a5ac78bd62c, type: 3}
+  m_Shader: {fileID: 4800000, guid: 566d901a1648f5143a7623e937e6de3c, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1
