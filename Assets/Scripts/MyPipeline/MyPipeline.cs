@@ -89,8 +89,11 @@ public class MyPipeline : RenderPipeline
         buffer.Clear();
         //buffer.EndSample("Render Camera");
 
-        var drawSettings = new DrawRendererSettings(camera, new ShaderPassName("SRPDefaultUnlit"));
-        drawSettings.flags = drawflags;
+        var drawSettings = new DrawRendererSettings(camera, new ShaderPassName("SRPDefaultUnlit")) { 
+            flags = drawflags,
+            rendererConfiguration = RendererConfiguration.PerObjectLightIndices8
+        };
+        //drawSettings.flags = drawflags;
         drawSettings.sorting.flags = SortFlags.CommonOpaque;
         
         var filterSettings = new FilterRenderersSettings(true)
