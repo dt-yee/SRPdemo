@@ -18,7 +18,7 @@ public class MyPipeline : RenderPipeline
     static int visibleLightSpotDirectionsId = Shader.PropertyToID("_VisibleLightSpotDirections");
 
     Vector4[] visibleLightColors = new Vector4[maxVisibleLights];
-    Vector4[] visibleLightDirections = new Vector4[maxVisibleLights];
+    Vector4[] visibleLightDirectionsOrPositions = new Vector4[maxVisibleLights];
     Vector4[] visibleLightAttenuations = new Vector4[maxVisibleLights];
     Vector4[] visibleLightSpotDirections = new Vector4[maxVisibleLights];
 
@@ -80,7 +80,7 @@ public class MyPipeline : RenderPipeline
         buffer.BeginSample("Render Camera");
 
         buffer.SetGlobalVectorArray(visibleLightColorsId, visibleLightColors);
-        buffer.SetGlobalVectorArray(visibleLightDirectionsOrPositionsId, visibleLightDirections);
+        buffer.SetGlobalVectorArray(visibleLightDirectionsOrPositionsId, visibleLightDirectionsOrPositions);
         buffer.SetGlobalVectorArray(visibleLightAttenuationsId, visibleLightAttenuations);
         buffer.SetGlobalVectorArray(visibleLightSpotDirectionsId, visibleLightSpotDirections);
 
@@ -161,7 +161,7 @@ public class MyPipeline : RenderPipeline
                 }
             }
             visibleLightAttenuations[i] = attenuation;
-            visibleLightDirections[i] = v;
+            visibleLightDirectionsOrPositions[i] = v;
 
         }
         for(int i = maxVisibleLights-1; i >= cull.visibleLights.Count; --i)

@@ -36,7 +36,7 @@ float3 DiffuseLight(int index, float3 normal, float3 worldPos)
 {
     float3 lightColor = _VisibleLightColors[index].rgb;
     float4 lightData = _VisibleLightDirectionsOrPositions[index];
-    float3 lightVector = lightData.xzy - worldPos * lightData.w;
+    float3 lightVector = lightData.xyz - worldPos * lightData.w;
     float3 spotDirection = _VisibleLightSpotDirections[index].xyz;
 
     float3 lightDir = normalize(lightVector);
