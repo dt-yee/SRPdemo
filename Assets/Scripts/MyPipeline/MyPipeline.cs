@@ -10,12 +10,28 @@ public class MyPipeline : RenderPipeline
 
     DrawRendererFlags drawflags;
 
-    const int maxVisibleLights = 4;
+    RenderTexture shadowMap;
 
-    static int visibleLightColorsId = Shader.PropertyToID("_VisibleLightColors");
-    static int visibleLightDirectionsOrPositionsId = Shader.PropertyToID("_VisibleLightDirectionsOrPositions");
-    static int visibleLightAttenuationsId = Shader.PropertyToID("_VisibleLightAttenuations");
-    static int visibleLightSpotDirectionsId = Shader.PropertyToID("_VisibleLightSpotDirections");
+    CommandBuffer buffer = new CommandBuffer
+    {
+        name = "Render Camera"
+    };
+
+    CommandBuffer shadowBuffer = new CommandBuffer
+    {
+        name = "Render Shadows"
+    };
+    
+    const int maxVisibleLights = 16;
+
+    static int visibleLightColorsId                 = Shader.PropertyToID("_VisibleLightColors");
+    static int visibleLightDirectionsOrPositionsId  = Shader.PropertyToID("_VisibleLightDirectionsOrPositions");
+    static int visibleLightAttenuationsId           = Shader.PropertyToID("_VisibleLightAttenuations");
+    static int visibleLightSpotDirectionsId         = Shader.PropertyToID("_VisibleLightSpotDirections");
+    static int lightIndicesOffsetAndCountID         = Shader.PropertyToID("unity_LightIndicesOffsetAndCount");
+
+    static int shadowMapId              = Shader.PropertyToID("_ShadowMap");
+    static int worldToShadowMatrixId    = Shader.PropertyToID("_WorldToShadowMatrix");
 
     Vector4[] visibleLightColors = new Vector4[maxVisibleLights];
     Vector4[] visibleLightDirectionsOrPositions = new Vector4[maxVisibleLights];
@@ -60,12 +76,13 @@ public class MyPipeline : RenderPipeline
     #endif
         CullResults.Cull(ref cullingParameters, context, ref cull);
 
+
+        
+        RenderShadows(context);
+
         context.SetupCameraProperties(camera);
         
-        CommandBuffer buffer = new CommandBuffer
-        {
-               name = "Render Camera"
-        };
+
         //buffer.BeginSample("Render Camera");
 
         CameraClearFlags clearFlags = camera.clearFlags;
@@ -74,9 +91,14 @@ public class MyPipeline : RenderPipeline
             (clearFlags & CameraClearFlags.Color) != 0,
             camera.backgroundColor
         );
-
-        ConfigureLights();
-
+        if (cull.visibleLights.Count > 0)
+        {
+            ConfigureLights();
+        }
+        else
+        {
+            buffer.SetGlobalVector(lightIndicesOffsetAndCountID, Vector4.zero);
+        }
         buffer.BeginSample("Render Camera");
 
         buffer.SetGlobalVectorArray(visibleLightColorsId, visibleLightColors);
@@ -90,9 +112,13 @@ public class MyPipeline : RenderPipeline
         //buffer.EndSample("Render Camera");
 
         var drawSettings = new DrawRendererSettings(camera, new ShaderPassName("SRPDefaultUnlit")) { 
-            flags = drawflags,
-            rendererConfiguration = RendererConfiguration.PerObjectLightIndices8
+            flags = drawflags//,
+            //rendererConfiguration = RendererConfiguration.PerObjectLightIndices8
         };
+        if(cull.visibleLights.Count > 0)
+        {
+            drawSettings.rendererConfiguration = RendererConfiguration.PerObjectLightIndices8;
+        }
         //drawSettings.flags = drawflags;
         drawSettings.sorting.flags = SortFlags.CommonOpaque;
         
@@ -116,6 +142,12 @@ public class MyPipeline : RenderPipeline
 
 
         context.Submit();
+
+        if (shadowMap)
+        {
+            RenderTexture.ReleaseTemporary(shadowMap);
+            shadowMap = null;
+        }
     }
 
     void ConfigureLights()
@@ -164,13 +196,68 @@ public class MyPipeline : RenderPipeline
             visibleLightDirectionsOrPositions[i] = v;
 
         }
-        for(int i = maxVisibleLights-1; i >= cull.visibleLights.Count; --i)
+
+        if (cull.visibleLights.Count > maxVisibleLights)
         {
-            visibleLightColors[i] = Color.clear;
+            int[] lightIndices = cull.GetLightIndexMap();
+            for (int i = maxVisibleLights; i < cull.visibleLights.Count; ++i)
+            {
+                lightIndices[i] = -1;
+            }
+            cull.SetLightIndexMap(lightIndices);
         }
+
+        //for(int i = maxVisibleLights-1; i >= cull.visibleLights.Count; --i)
+        //{
+        //    visibleLightColors[i] = Color.clear;
+        //}
 
     }
 
+    void RenderShadows(ScriptableRenderContext context)
+    {
+        shadowMap = RenderTexture.GetTemporary(512, 512, 16, RenderTextureFormat.Shadowmap);
+
+        shadowMap.filterMode = FilterMode.Bilinear;
+        shadowMap.wrapMode = TextureWrapMode.Clamp;
+
+        CoreUtils.SetRenderTarget(shadowBuffer, shadowMap, RenderBufferLoadAction.DontCare, 
+            RenderBufferStoreAction.Store,
+            ClearFlag.Depth);
+
+        shadowBuffer.BeginSample("Render Shadows");
+        context.ExecuteCommandBuffer(shadowBuffer);
+        shadowBuffer.Clear();
+
+        Matrix4x4 viewMatrix, projectionMatrix;
+        ShadowSplitData splitData;
+        cull.ComputeSpotShadowMatricesAndCullingPrimitives(0, out viewMatrix, out projectionMatrix, out splitData);
+        shadowBuffer.SetViewProjectionMatrices(viewMatrix, projectionMatrix);
+        context.ExecuteCommandBuffer(shadowBuffer);
+        shadowBuffer.Clear();
+
+        var shadowSettings = new DrawShadowsSettings(cull, 0);
+        context.DrawShadows(ref shadowSettings);
+
+        if (SystemInfo.usesReversedZBuffer)
+        {
+            projectionMatrix.m20 = -projectionMatrix.m20;
+            projectionMatrix.m21 = -projectionMatrix.m21;
+            projectionMatrix.m22 = -projectionMatrix.m22;
+            projectionMatrix.m23 = -projectionMatrix.m23;
+
+        }
+        var scaleOffset = Matrix4x4.TRS(Vector3.one * 0.5f, Quaternion.identity, Vector3.one * 0.5f);
+
+        Matrix4x4 worldToShadowMatrix = scaleOffset * (projectionMatrix * viewMatrix);
+        shadowBuffer.SetGlobalMatrix(worldToShadowMatrixId, worldToShadowMatrix);
+        shadowBuffer.SetGlobalTexture(shadowMapId, shadowMap);
+
+
+        shadowBuffer.EndSample("Render Shadows");
+        context.ExecuteCommandBuffer(shadowBuffer);
+        shadowBuffer.Clear();
+    }
 
     [Conditional("DEVELOPMENT_BUILD"), Conditional("UNITY_EDITOR")]
     void DrawDefaultPipeline(ScriptableRenderContext context, Camera camera)

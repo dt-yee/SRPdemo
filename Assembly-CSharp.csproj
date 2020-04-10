@@ -66,6 +66,7 @@
     <Compile Include="Assets\Scripts\InstancedColor.cs" />
     <Compile Include="Assets\Scripts\MyPipeline\MyPipeline.cs" />
     <Compile Include="Assets\Scripts\MyPipeline\MyPipelineAsset.cs" />
+    <None Include="Assets\Scripts\ShaderLab\ShadowCaster.hlsl" />
     <None Include="Assets\Scripts\Shaders\Unlit.shader" />
     <None Include="Assets\Scripts\Shaders\Lit.shader" />
     <None Include="Assets\Scripts\ShaderLab\Lit.hlsl" />
