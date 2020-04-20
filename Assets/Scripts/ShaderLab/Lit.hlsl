@@ -26,6 +26,11 @@ CBUFFER_START(_ShadowBuffer)
     float4x4 _WorldToShadowMatrices[MAX_VISIBLE_LIGHTS];
     float4 _ShadowData[MAX_VISIBLE_LIGHTS];
     float4 _ShadowMapSize;
+    float4 _GlobalShadowData;
+CBUFFER_END
+
+CBUFFER_START(UnityPerCamera)
+    float3 _WorldSpaceCameraPos;
 CBUFFER_END
 
 TEXTURE2D_SHADOW(_ShadowMap);
@@ -42,6 +47,11 @@ SAMPLER_CMP(sampler_ShadowMap);
 UNITY_INSTANCING_BUFFER_START(PerInstance)
 UNITY_DEFINE_INSTANCED_PROP(float4, _Color)
 UNITY_INSTANCING_BUFFER_END(PerInstance)
+
+float DistanceToCameraSqr(float3 worldPos){
+    float3 cameraToFragment = worldPos - _WorldSpaceCameraPos;
+    return dot(cameraToFragment, cameraToFragment);
+}
 
 float HardShadowAttenuation (float4 shadowPos){
     return SAMPLE_TEXTURE2D_SHADOW(_ShadowMap, sampler_ShadowMap, shadowPos.xyz);
@@ -67,11 +77,13 @@ float ShadowAttenuation(int index, float3 worldPos)
     #if !defined(_SHADOWS_HARD) && !defined(_SHADOWS_SOFT)
         return 1.0;
     #endif
-    if(_ShadowData[index].x < 0){
+    if(_ShadowData[index].x < 0 || DistanceToCameraSqr(worldPos) > _GlobalShadowData.y){
         return 1.0;
     }
     float4 shadowPos = mul(_WorldToShadowMatrices[index], float4(worldPos, 1.0));
     shadowPos.xyz /= shadowPos.w;
+    shadowPos.xy = saturate(shadowPos.xy);
+    shadowPos.xy = shadowPos.xy * _GlobalShadowData.x + _ShadowData[index].zw;
     float attenuation;
 
     #if defined(_SHADOW_HARD)
